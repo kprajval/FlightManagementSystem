@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Book Flight</title>
+    <style>
+        .seat-matrix button {
+            width: 50px;
+        }
+
+        .booked {
+            background-color: red;
+            color: white;
+        }
+
+        .selected {
+            background-color: green;
+            color: white;
+        }
+
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        .seat-matrix {
+            margin-bottom: 20px;
+        }
+
+        form {
+            max-width: 400px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 12px);
+            padding: 6px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        let selectedSeats = [];
+
+        function toggleSeat(seatNumber) {
+            const index = selectedSeats.indexOf(seatNumber);
+            const button = document.getElementById(seatNumber);
+
+            if (index === -1) {
+                selectedSeats.push(seatNumber);
+                button.classList.add('selected');
+            } else {
+                selectedSeats.splice(index, 1);
+                button.classList.remove('selected');
+            }
+
+            document.getElementById('selectedSeats').value = selectedSeats.join(',');
+        }
+    </script>
+</head>
+<body>
+    <h1>Booking Details</h1>
+    <div th:if="${flight}">
+        <p>Flight Number: <span th:text="${flight.flightNumber}"></span></p>
+        <p>Departure: <span th:text="${flight.source}"></span> at <span th:text="${#temporals.format(flight.departureDateTime, 'yyyy-MM-dd HH:mm')}"></span></p>
+        <p>Arrival: <span th:text="${flight.destination}"></span> at <span th:text="${#temporals.format(flight.arrivalDateTime, 'yyyy-MM-dd HH:mm')}"></span></p>
+        <p>Price: <span th:text="${#numbers.formatCurrency(flight.price)}"></span></p>
+        <p>Available Seats: <span th:text="${flight.availableSeats}"></span></p>
+
+        <div class="seat-matrix">
+            <p>
+                <button id="A1" th:class="${bookedSeats.contains('A1')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('A1')}" onclick="toggleSeat('A1')">A1</button>
+                <button id="A2" th:class="${bookedSeats.contains('A2')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('A2')}" onclick="toggleSeat('A2')">A2</button>
+                <button id="A3" th:class="${bookedSeats.contains('A3')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('A3')}" onclick="toggleSeat('A3')">A3</button>
+                <button id="A4" th:class="${bookedSeats.contains('A4')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('A4')}" onclick="toggleSeat('A4')">A4</button>
+                <button id="A5" th:class="${bookedSeats.contains('A5')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('A5')}" onclick="toggleSeat('A5')">A5</button>
+            </p>
+            <p>
+                <button id="B1" th:class="${bookedSeats.contains('B1')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('B1')}" onclick="toggleSeat('B1')">B1</button>
+                <button id="B2" th:class="${bookedSeats.contains('B2')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('B2')}" onclick="toggleSeat('B2')">B2</button>
+                <button id="B3" th:class="${bookedSeats.contains('B3')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('B3')}" onclick="toggleSeat('B3')">B3</button>
+                <button id="B4" th:class="${bookedSeats.contains('B4')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('B4')}" onclick="toggleSeat('B4')">B4</button>
+                <button id="B5" th:class="${bookedSeats.contains('B5')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('B5')}" onclick="toggleSeat('B5')">B5</button>
+            </p>
+            <p>
+                <button id="C1" th:class="${bookedSeats.contains('C1')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('C1')}" onclick="toggleSeat('C1')">C1</button>
+                <button id="C2" th:class="${bookedSeats.contains('C2')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('C2')}" onclick="toggleSeat('C2')">C2</button>
+                <button id="C3" th:class="${bookedSeats.contains('C3')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('C3')}" onclick="toggleSeat('C3')">C3</button>
+                <button id="C4" th:class="${bookedSeats.contains('C4')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('C4')}" onclick="toggleSeat('C4')">C4</button>
+                <button id="C5" th:class="${bookedSeats.contains('C5')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('C5')}" onclick="toggleSeat('C5')">C5</button>
+            </p>
+            <p>
+                <button id="D1" th:class="${bookedSeats.contains('D1')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('D1')}" onclick="toggleSeat('D1')">D1</button>
+                <button id="D2" th:class="${bookedSeats.contains('D2')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('D2')}" onclick="toggleSeat('D2')">D2</button>
+                <button id="D3" th:class="${bookedSeats.contains('D3')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('D3')}" onclick="toggleSeat('D3')">D3</button>
+                <button id="D4" th:class="${bookedSeats.contains('D4')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('D4')}" onclick="toggleSeat('D4')">D4</button>
+                <button id="D5" th:class="${bookedSeats.contains('D5')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('D5')}" onclick="toggleSeat('D5')">D5</button>
+            </p>
+            <p>
+                <button id="E1" th:class="${bookedSeats.contains('E1')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('E1')}" onclick="toggleSeat('E1')">E1</button>
+                <button id="E2" th:class="${bookedSeats.contains('E2')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('E2')}" onclick="toggleSeat('E2')">E2</button>
+                <button id="E3" th:class="${bookedSeats.contains('E3')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('E3')}" onclick="toggleSeat('E3')">E3</button>
+                <button id="E4" th:class="${bookedSeats.contains('E4')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('E4')}" onclick="toggleSeat('E4')">E4</button>
+                <button id="E5" th:class="${bookedSeats.contains('E5')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('E5')}" onclick="toggleSeat('E5')">E5</button>
+            </p>
+            <p>
+                <button id="F1" th:class="${bookedSeats.contains('F1')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('F1')}" onclick="toggleSeat('F1')">F1</button>
+                <button id="F2" th:class="${bookedSeats.contains('F2')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('F2')}" onclick="toggleSeat('F2')">F2</button>
+                <button id="F3" th:class="${bookedSeats.contains('F3')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('F3')}" onclick="toggleSeat('F3')">F3</button>
+                <button id="F4" th:class="${bookedSeats.contains('F4')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('F4')}" onclick="toggleSeat('F4')">F4</button>
+                <button id="F5" th:class="${bookedSeats.contains('F5')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('F5')}" onclick="toggleSeat('F5')">F5</button>
+            </p>
+            <p>
+                <button id="G1" th:class="${bookedSeats.contains('G1')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('G1')}" onclick="toggleSeat('G1')">G1</button>
+                <button id="G2" th:class="${bookedSeats.contains('G2')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('G2')}" onclick="toggleSeat('G2')">G2</button>
+                <button id="G3" th:class="${bookedSeats.contains('G3')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('G3')}" onclick="toggleSeat('G3')">G3</button>
+                <button id="G4" th:class="${bookedSeats.contains('G4')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('G4')}" onclick="toggleSeat('G4')">G4</button>
+                <button id="G5" th:class="${bookedSeats.contains('G5')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('G5')}" onclick="toggleSeat('G5')">G5</button>
+            </p>
+            <p>
+                <button id="H1" th:class="${bookedSeats.contains('H1')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('H1')}" onclick="toggleSeat('H1')">H1</button>
+                <button id="H2" th:class="${bookedSeats.contains('H2')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('H2')}" onclick="toggleSeat('H2')">H2</button>
+                <button id="H3" th:class="${bookedSeats.contains('H3')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('H3')}" onclick="toggleSeat('H3')">H3</button>
+                <button id="H4" th:class="${bookedSeats.contains('H4')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('H4')}" onclick="toggleSeat('H4')">H4</button>
+                <button id="H5" th:class="${bookedSeats.contains('H5')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('H5')}" onclick="toggleSeat('H5')">H5</button>
+            </p>
+            <p>
+                <button id="I1" th:class="${bookedSeats.contains('I1')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('I1')}" onclick="toggleSeat('I1')">I1</button>
+                <button id="I2" th:class="${bookedSeats.contains('I2')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('I2')}" onclick="toggleSeat('I2')">I2</button>
+                <button id="I3" th:class="${bookedSeats.contains('I3')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('I3')}" onclick="toggleSeat('I3')">I3</button>
+                <button id="I4" th:class="${bookedSeats.contains('I4')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('I4')}" onclick="toggleSeat('I4')">I4</button>
+                <button id="I5" th:class="${bookedSeats.contains('I5')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('I5')}" onclick="toggleSeat('I5')">I5</button>
+            </p>
+            <p>
+                <button id="J1" th:class="${bookedSeats.contains('J1')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('J1')}" onclick="toggleSeat('J1')">J1</button>
+                <button id="J2" th:class="${bookedSeats.contains('J2')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('J2')}" onclick="toggleSeat('J2')">J2</button>
+                <button id="J3" th:class="${bookedSeats.contains('J3')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('J3')}" onclick="toggleSeat('J3')">J3</button>
+                <button id="J4" th:class="${bookedSeats.contains('J4')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('J4')}" onclick="toggleSeat('J4')">J4</button>
+                <button id="J5" th:class="${bookedSeats.contains('J5')} ? 'booked' : ''" th:disabled="${bookedSeats.contains('J5')}" onclick="toggleSeat('J5')">J5</button>
+            </p>
+        </div>
+
+        <p th:if="${#lists.isEmpty(bookedSeats)}">No seats have been booked yet for this flight.</p>
+
+        <form action="/select-seat" method="post">
+            <input type="hidden" name="flightId" th:value="${flight.flightId}">
+            <div>
+                <label for="selectedSeats">Selected Seats:</label>
+                <input type="text" id="selectedSeats" name="selectedSeats" required readonly><br>
+
+                <!--<label for="phno">Phone number:</label>-->
+                <input type="text" name="phno" id="phno" value="+91 7483588366" readonly style="display: none;">
+            </div>
+            <button type="submit">Proceed to Payment</button>
+        </form>
+    </div>
+    <div th:unless="${flight}">
+        <p>Flight details not found.</p>
+    </div>
+    <p><a th:href="@{/search}">Back to Search</a></p>
+    <p><a href="@{/cacel-ticket}">Cancel Ticket</a></p>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Search Results</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Available Flights</h1>
+    <div th:if="${flights.isEmpty()}">
+        <p>No flights found for the selected criteria.</p>
+    </div>
+    <ul th:unless="${flights.isEmpty()}">
+        <li th:each="flight : ${flights}">
+            <span th:text="${flight.flightNumber}"></span> -
+            <span th:text="${flight.source}"></span> to
+            <span th:text="${flight.destination}"></span> -
+            <span th:text="${#temporals.format(flight.departureDateTime, 'yyyy-MM-dd HH:mm')}"></span> -
+            Price: <span th:text="${#numbers.formatCurrency(flight.price)}"></span> -
+            Available Seats: <span th:text="${flight.availableSeats}"></span>
+            <a th:href="@{/book/{flightId}(flightId=${flight.flightId})}">Book</a>
+        </li>
+    </ul>
+    <p><a href="/">Back to Search</a></p>
+</body>
+</html>
