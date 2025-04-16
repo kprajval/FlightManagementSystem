@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Payment</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        p {
+            margin-bottom: 15px;
+        }
+        form {
+            display: inline-block;
+        }
+        button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        function generateTransactionReference() {
+            return 'TXN-' + Math.random().toString(36).substring(2, 15).toUpperCase();
+        }
+
+        window.onload = function() {
+            document.getElementById('transactionReference').value = generateTransactionReference();
+        };
+    </script>
+</head>
+<body>
+    <h1>Payment Confirmation</h1>
+    <p>Total Amount: <span th:text="${totalPrice}"></span> USD</p>
+    <p>Please select your payment method.</p>
+    <form action="/confirm-payment" method="post">
+        <input type="hidden" name="flightId" th:value="${flightId}">
+        <input type="hidden" name="selectedSeats" th:value="${selectedSeats}">
+        <input type="hidden" name="phno" id="phno" th:value="${phno}">
+        <label for="paymentMethod">Payment Method:</label>
+        <select id="paymentMethod" name="paymentMethod" required>
+            <option value="Bank Account">Bank Account</option>
+            <option value="Credit Card">Credit Card</option>
+            <option value="Debit Card">Debit Card</option>
+        </select><br><br>
+        <label for="accountName">Account Name:</label>
+        <input type="text" id="accountName" name="accountName"><br><br>
+        <label for="transactionReference">Transaction Reference:</label>
+        <input type="text" id="transactionReference" name="transactionReference" readonly><br><br>
+        <button type="submit">Confirm and Pay</button>
+    </form>
+    <p><a th:href="@{/book/{flightId}(flightId=${flightId})}">Back to Seat Selection</a></p>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Boarding Passes</title>
+    <style>
+        .boarding-card {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 5px;
+        }
+
+        strong {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Boarding Passes</h1>
+
+    <div th:each="booking : ${bookings}" class="boarding-card">
+        <h2>Boarding Pass</h2>
+        <p><strong>Boarding Pass Number:</strong> <span th:text="${booking.boardingPassNumber}"></span></p>
+        <p><strong>Selected Seat:</strong> <span th:text="${booking.selectedSeat}"></span></p>
+        <p><strong>Flight Number:</strong> <span th:text="${flight.flightNumber}"></span></p>
+        <p><strong>Source:</strong> <span th:text="${flight.source}"></span></p>
+        <p><strong>Destination:</strong> <span th:text="${flight.destination}"></span></p>
+        <p><strong>Departure Time:</strong> <span th:text="${flight.departureDateTime}"></span></p>
+    </div>
+</body>
+</html>
